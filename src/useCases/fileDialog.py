@@ -1,4 +1,4 @@
-from tkinter import filedialog
+from tkinter import filedialog, messagebox
 
 
 class FileDialog:
@@ -7,6 +7,14 @@ class FileDialog:
         self.loaded_dataFrame = None
 
     def set_file_path(self):
-        self.file_path = filedialog.askopenfilename(
-            initialdir="/", title="Select a file", filetypes=[("Excel Files", ".xlsx")]
+        file_path = filedialog.askopenfilename(
+            initialdir="/",
+            title="Select a .xlsx or a .csv file",
+            filetypes=[("ALL Files", "*.*")],
         )
+        if file_path.endswith(".xlsx") or file_path.endswith(".csv"):
+            self.file_path = file_path
+        else:
+            messagebox.showerror(
+                "Invalid file type", "Please select a .xlsx or csv file!"
+            )

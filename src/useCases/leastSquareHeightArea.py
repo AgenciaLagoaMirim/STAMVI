@@ -6,7 +6,11 @@ from sklearn.linear_model import LinearRegression
 
 class LeastSquareHeightArea:
     def plot_least_squares(self, file_path):
-        xlsx_dataFrame = pd.read_excel(file_path)
+        file_path = r"{}".format(file_path)
+        if file_path[-4:] == ".csv":
+            xlsx_dataFrame = pd.read_csv(file_path)
+        else:
+            xlsx_dataFrame = pd.read_excel(file_path)
 
         height_list = np.array(xlsx_dataFrame.height_m)
         height_mtx = height_list.reshape(-1, 1)
@@ -34,6 +38,8 @@ class LeastSquareHeightArea:
         plt.ylabel("Mean Area (m²)")
 
         # adiciona o valor de R²
-        plt.title(f"R² = {linear_model_height_mean_area.score(height_mtx, area_list):.4f}")
+        plt.title(
+            f"R² = {linear_model_height_mean_area.score(height_mtx, area_list):.4f}"
+        )
 
         plt.show()

@@ -6,7 +6,11 @@ from sklearn.linear_model import LinearRegression
 
 class LeastVelXAvgVel:
     def plot_least_squares(self, file_path):
-        xlsx_dataFrame = pd.read_excel(file_path)
+        file_path = r"{}".format(file_path)
+        if file_path[-4:] == ".csv":
+            xlsx_dataFrame = pd.read_csv(file_path)
+        else:
+            xlsx_dataFrame = pd.read_excel(file_path)
 
         velocityX_list = np.array(xlsx_dataFrame.velocityX_mps)
         velocityX_mtx = velocityX_list.reshape(-1, 1)

@@ -25,8 +25,7 @@ class MainApp:
         self.root.geometry(f"{APP_WIDTH}x{APP_HEIGHT}")
         self.root.resizable(0, 0)
         # use cases
-        self.xml_data_processing = XmlDataProcessing()
-        self.dat_data_processing = DatDataProcessing()
+
         self.export_data = ExportData()
         self.least_square_height_area = LeastSquareHeightArea()
         self.least_square_velx_avgVel = LeastVelXAvgVel()
@@ -35,49 +34,80 @@ class MainApp:
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame")
         self.trv_frame.place(height=250, width=800)
 
-        # Frame Open File Dialog
-        self.file_dialog_frame = tk.LabelFrame(self.root, text="Files Dialog")
-        self.file_dialog_frame.place(height=100, width=800, rely=0.65, relx=0)
+        # Frame Data Processing
 
-        self.label_frame = ttk.Label(self.file_dialog_frame, text="No file Selected")
+        self.data_processing_frame = tk.LabelFrame(
+            self.root,
+            text="Export Processed Data:",
+        )
+        self.data_processing_frame.place(height=70, width=200, rely=0.53, relx=0.01)
+
+        # Data Processing Button
+
+        self.btn_export_excel_data = ttk.Button(
+            self.data_processing_frame,
+            padding=2,
+            text="as .xlsx",
+            command=lambda: [
+                self.export_data.setup_final_dataFrame(),
+                self.export_data.export_xlsx(),
+            ],
+        )
+        self.btn_export_excel_data.place(relx=0.01, rely=0.35)
+
+        self.btn_export_csv_data = ttk.Button(
+            self.data_processing_frame,
+            padding=2,
+            text="as .csv",
+            command=lambda: [
+                self.export_data.setup_final_dataFrame(),
+                self.export_data.export_csv(),
+            ],
+        )
+        self.btn_export_csv_data.place(relx=0.58, rely=0.35)
+
+        # Frame Open File Dialog
+
+        self.file_dialog_frame = tk.LabelFrame(self.root, text="Files Dialog")
+        self.file_dialog_frame.place(height=70, width=550, rely=0.53, relx=0.3)
 
         # Label
         self.label_file = ttk.Label(self.file_dialog_frame, text="No file Selected")
-        self.label_file.place(rely=0, relx=0)
+        self.label_file.place(rely=0, relx=0.01)
 
         # Frame Botões
 
-        self.btn1 = ttk.Button(
+        self.btn_load_excel_data = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Botao1",
+            text="load file",
             command=lambda: [self.file_path.set_file_path(), load_excel_data(self)],
         )
-        self.btn1.pack()
+        self.btn_load_excel_data.place(relx=0.01, rely=0.39)
 
-        self.btn2 = ttk.Button(
+        self.btn_least_square_mean_area_height = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Botao2",
+            text="Mean Area",
             command=lambda: [
                 self.least_square_height_area.plot_least_squares(
                     self.file_path.file_path
                 ),
             ],
         )
-        self.btn2.pack()
+        self.btn_least_square_mean_area_height.place(relx=0.2, rely=0.39)
 
-        self.btn3 = ttk.Button(
+        self.btn_least_square_velx_avgVel = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Botao3",
+            text="Average velocity",
             command=lambda: [
                 self.least_square_velx_avgVel.plot_least_squares(
                     self.file_path.file_path
                 ),
             ],
         )
-        self.btn3.pack()
+        self.btn_least_square_velx_avgVel.place(relx=0.39, rely=0.39)
 
         # TreeViewWidget
         self.tree_view = ttk.Treeview(self.trv_frame)
@@ -110,7 +140,9 @@ class MainApp:
             except FileNotFoundError:
                 messagebox.showerror("Attention", f"No such file as {self.file_path}")
 
-            self.label_file = ttk.Label(self.file_dialog_frame, text=f"{self.file_name}")
+            self.label_file = ttk.Label(
+                self.file_dialog_frame, text=f"{self.file_name}"
+            )
             self.label_file.place(rely=0, relx=0)
             clear_data(self)
             self.tree_view["column"] = list(self.loaded_dataFrame)
@@ -123,7 +155,6 @@ class MainApp:
                     minwidth=0,
                 )
                 self.tree_view.heading(column, text=column)
-                # self.tree_view.columnconfigure(column, weight=1)
 
             self.loaded_dataFrame_rows = self.loaded_dataFrame.to_numpy().tolist()
             for row in self.loaded_dataFrame_rows:
