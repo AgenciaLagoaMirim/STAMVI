@@ -6,3 +6,4 @@ from src.useCases.leastSquareHeightArea import LeastSquareHeightArea
 from src.useCases.leastSquareVelXAvgVel import LeastVelXAvgVel
 from src.useCases.xlsxToDataFrame import XlsxToDataFrame
 from src.useCases.xmlDataProcessing import XmlDataProcessing
+from src.useCases.estimatedQValues import EstimatedQValues

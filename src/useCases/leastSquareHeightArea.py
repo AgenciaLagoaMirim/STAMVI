@@ -5,6 +5,10 @@ from sklearn.linear_model import LinearRegression
 
 
 class LeastSquareHeightArea:
+    def __init__(self):
+        self.mean_area_list = None
+        self.linear_model_height_mean_area = None
+
     def plot_least_squares(self, file_path):
         file_path = r"{}".format(file_path)
         if file_path[-4:] == ".csv":
@@ -16,8 +20,10 @@ class LeastSquareHeightArea:
         height_mtx = height_list.reshape(-1, 1)
 
         area_list = np.array(xlsx_dataFrame.mean_area_sqm)
+        self.mean_area_list = area_list
         # treina o modelo
         linear_model_height_mean_area = LinearRegression()
+        self.linear_model_height_mean_area = linear_model_height_mean_area
         linear_model_height_mean_area.fit(height_mtx, area_list)
         # obtem previsões
         area_predict = linear_model_height_mean_area.predict(height_mtx)
@@ -43,3 +49,7 @@ class LeastSquareHeightArea:
         )
 
         plt.show()
+
+    def get_predict_area_values(self):
+        predict_mean_area_values = self.linear_model_height_mean_area(self.height_list)
+        return predict_mean_area_values

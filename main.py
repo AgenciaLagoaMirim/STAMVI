@@ -5,6 +5,7 @@ import pandas as pd
 
 from src.useCases import (
     DatDataProcessing,
+    EstimatedQValues,
     ExportData,
     FileDialog,
     LeastSquareHeightArea,
@@ -29,6 +30,7 @@ class MainApp:
         self.export_data = ExportData()
         self.least_square_height_area = LeastSquareHeightArea()
         self.least_square_velx_avgVel = LeastVelXAvgVel()
+        self.estimated_q_values = EstimatedQValues()
 
         # Frame da TreeViewWidget
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame")
@@ -108,6 +110,20 @@ class MainApp:
             ],
         )
         self.btn_least_square_velx_avgVel.place(relx=0.39, rely=0.39)
+
+        self.btn_estimated_q_values = ttk.Button(
+            self.file_dialog_frame,
+            padding=2,
+            text="Q Values",
+            command=lambda: [
+                self.estimated_q_values.get_estimated_q_values(
+                    self.file_path.file_path,
+                    self.least_square_height_area.mean_area_list,
+                    self.least_square_velx_avgVel.avg_vel_list,
+                )
+            ],
+        )
+        self.btn_estimated_q_values.place(relx=0.62, rely=0.39)
 
         # TreeViewWidget
         self.tree_view = ttk.Treeview(self.trv_frame)
