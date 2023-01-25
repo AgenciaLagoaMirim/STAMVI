@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LinearRegression
 
 
 class EstimatedQValues:
@@ -15,19 +14,24 @@ class EstimatedQValues:
         # configura dados vazõ observada
         q_m3_per_sec = np.array(xlsx_dataFrame.Q_m3_per_sec)
 
+        print(f"Mean area {mean_area}")
+        print(f"Avg_veloc {avg_velocity}")
+
         estimated_q_values = mean_area * avg_velocity
 
         print(f"Vazão observada {q_m3_per_sec}")
         print(f"Vazão estimada {estimated_q_values}")
 
-        cns = 1 - (
-            np.sum((q_m3_per_sec - estimated_q_values) ** 2)
-            / np.sum((q_m3_per_sec - np.mean(q_m3_per_sec)) ** 2)
-        )
+        mean_q_m3_per_sec = np.mean(q_m3_per_sec)
+        numerator = np.sum((q_m3_per_sec - estimated_q_values) ** 2)
+        denominator = np.sum((q_m3_per_sec - mean_q_m3_per_sec) ** 2)
+        cns = 1 - (numerator / denominator)
+        print(cns)
 
         # plotar grafico
         plt.scatter(q_m3_per_sec, estimated_q_values)
-        plt.plot(q_m3_per_sec, estimated_q_values, color="red")
+        # plt.scatter(q_m3_per_sec, q_m3_per_sec, color="r")
+        plt.plot(q_m3_per_sec, q_m3_per_sec, color="red")
 
         plt.annotate(
             "Q (m³/s) Observed - Estimated",

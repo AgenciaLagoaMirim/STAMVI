@@ -41,6 +41,8 @@ class ExportData:
         filtered_date = filtered_df["Date"].to_list()
         date_list = pd.to_datetime(filtered_date)
 
+        # realiza a busca inversa
+
         filtered_xml_dataFrame = xml_dataFrame[
             xml_dataFrame.apply(
                 lambda x: any(

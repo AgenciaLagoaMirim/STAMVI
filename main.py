@@ -118,8 +118,8 @@ class MainApp:
             command=lambda: [
                 self.estimated_q_values.get_estimated_q_values(
                     self.file_path.file_path,
-                    self.least_square_height_area.mean_area_list,
-                    self.least_square_velx_avgVel.avg_vel_list,
+                    self.least_square_velx_avgVel.avg_vel_predict,
+                    self.least_square_height_area.area_predict,
                 )
             ],
         )
