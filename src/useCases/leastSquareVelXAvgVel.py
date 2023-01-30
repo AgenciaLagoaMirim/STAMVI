@@ -7,6 +7,9 @@ from sklearn.linear_model import LinearRegression
 class LeastVelXAvgVel:
     def __init__(self):
         self.avg_vel_predict = None
+        self.coef_ = None
+        self.intercept_ = None
+        self.score = None
 
     def plot_least_squares(self, file_path):
         file_path = r"{}".format(file_path)
@@ -37,7 +40,13 @@ class LeastVelXAvgVel:
 
         # adiciona o valor de R²
         plt.title(
-            f"Average Velocity(m/s) = {linear_model_velx_avgVel.coef_[0]:.2f}Velocity X(m/s) + {linear_model_velx_avgVel.intercept_:.2f}\n R² = {linear_model_velx_avgVel.score(velocityX_mtx, avg_vel_list):.4f}"
+            f"Average Velocity(m/s) = {linear_model_velx_avgVel.coef_[0]:.3f}Velocity X(m/s) + {linear_model_velx_avgVel.intercept_:.3f}\n R² = {linear_model_velx_avgVel.score(velocityX_mtx, avg_vel_list):.3f}"
+        )
+
+        self.coef_ = round(linear_model_velx_avgVel.coef_[0], 3)
+        self.intercept_ = round(linear_model_velx_avgVel.intercept_, 3)
+        self.score = round(
+            linear_model_velx_avgVel.score(velocityX_mtx, avg_vel_list), 4
         )
 
         plt.show()

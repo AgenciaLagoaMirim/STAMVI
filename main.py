@@ -13,7 +13,7 @@ from src.useCases import (
     XmlDataProcessing,
 )
 
-APP_HEIGHT = 500
+APP_HEIGHT = 600
 APP_WIDTH = 800
 
 
@@ -33,16 +33,20 @@ class MainApp:
         self.estimated_q_values = EstimatedQValues()
 
         # Frame da TreeViewWidget
-        self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame")
-        self.trv_frame.place(height=250, width=800)
+        self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame Display")
+        self.trv_frame.place(height=300, width=800)
 
         # Frame Data Processing
 
         self.data_processing_frame = tk.LabelFrame(
             self.root,
-            text="Export Processed Data:",
+            text="Load Data/Export Processed Data:",
         )
-        self.data_processing_frame.place(height=70, width=200, rely=0.53, relx=0.01)
+        self.data_processing_frame.place(height=70, width=262, rely=0.53, relx=0.01)
+
+        # Label
+        self.label_file = ttk.Label(self.data_processing_frame, text="No file Selected")
+        self.label_file.place(rely=0, relx=0.01)
 
         # Data Processing Button
 
@@ -66,26 +70,22 @@ class MainApp:
                 self.export_data.export_csv(),
             ],
         )
-        self.btn_export_csv_data.place(relx=0.58, rely=0.35)
-
-        # Frame Open File Dialog
-
-        self.file_dialog_frame = tk.LabelFrame(self.root, text="Files Dialog")
-        self.file_dialog_frame.place(height=70, width=550, rely=0.53, relx=0.3)
-
-        # Label
-        self.label_file = ttk.Label(self.file_dialog_frame, text="No file Selected")
-        self.label_file.place(rely=0, relx=0.01)
-
-        # Frame Botões
+        self.btn_export_csv_data.place(relx=0.35, rely=0.35)
 
         self.btn_load_excel_data = ttk.Button(
-            self.file_dialog_frame,
+            self.data_processing_frame,
             padding=2,
             text="load file",
             command=lambda: [self.file_path.set_file_path(), load_excel_data(self)],
         )
-        self.btn_load_excel_data.place(relx=0.01, rely=0.39)
+        self.btn_load_excel_data.place(relx=0.681, rely=0.35)
+
+        # Frame Open File Dialog
+
+        self.file_dialog_frame = tk.LabelFrame(self.root, text="Execute Models:")
+        self.file_dialog_frame.place(height=60, width=262, rely=0.67, relx=0.01)
+
+        # Botões Least Squares
 
         self.btn_least_square_mean_area_height = ttk.Button(
             self.file_dialog_frame,
@@ -95,26 +95,28 @@ class MainApp:
                 self.least_square_height_area.plot_least_squares(
                     self.file_path.file_path
                 ),
+                load_height_area_label(self),
             ],
         )
-        self.btn_least_square_mean_area_height.place(relx=0.2, rely=0.39)
+        self.btn_least_square_mean_area_height.place(relx=0.01, rely=0.2)
 
         self.btn_least_square_velx_avgVel = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Average velocity",
+            text="Avg. velocity",
             command=lambda: [
                 self.least_square_velx_avgVel.plot_least_squares(
                     self.file_path.file_path
                 ),
+                load_velocityx_avg_vel_label(self),
             ],
         )
-        self.btn_least_square_velx_avgVel.place(relx=0.39, rely=0.39)
+        self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
 
         self.btn_estimated_q_values = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Q Values",
+            text="CNS",
             command=lambda: [
                 self.estimated_q_values.get_estimated_q_values(
                     self.file_path.file_path,
@@ -123,7 +125,70 @@ class MainApp:
                 )
             ],
         )
-        self.btn_estimated_q_values.place(relx=0.62, rely=0.39)
+        self.btn_estimated_q_values.place(relx=0.681, rely=0.2)
+
+        # Frame Valores estimados
+
+        self.estimated_values_frame = tk.LabelFrame(self.root, text="Get Time Series:")
+        self.estimated_values_frame.place(height=60, width=262, rely=0.80, relx=0.01)
+
+        # Botões Least Squares
+
+        self.btn_least_square_mean_area_height = ttk.Button(
+            self.estimated_values_frame,
+            padding=2,
+            text="Avg velocity",
+            command=lambda: [
+                self.least_square_height_area.plot_least_squares(
+                    self.file_path.file_path
+                ),
+            ],
+        )
+        self.btn_least_square_mean_area_height.place(relx=0.01, rely=0.2)
+
+        self.btn_least_square_velx_avgVel = ttk.Button(
+            self.estimated_values_frame,
+            padding=2,
+            text="Height",
+            command=lambda: [
+                self.least_square_velx_avgVel.plot_least_squares(
+                    self.file_path.file_path
+                ),
+            ],
+        )
+        self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
+
+        self.btn_estimated_q_values = ttk.Button(
+            self.estimated_values_frame,
+            padding=2,
+            text="Q values",
+            command=lambda: [
+                self.estimated_q_values.get_estimated_q_values(
+                    self.file_path.file_path,
+                    self.least_square_velx_avgVel.avg_vel_predict,
+                    self.least_square_height_area.area_predict,
+                )
+            ],
+        )
+        self.btn_estimated_q_values.place(relx=0.681, rely=0.2)
+
+        # Frame para os parametros
+
+        # Height-Area
+        self.height_area_param_values_frame = tk.LabelFrame(
+            self.root, text="Height - Area Equation:"
+        )
+        self.height_area_param_values_frame.place(
+            height=70, width=460, relx=0.4, rely=0.53
+        )
+
+        # VelocityX - Average Velocity
+        self.velocityx_avg_velocity_param_values_frame = tk.LabelFrame(
+            self.root, text="Velocity X - Average Velocity Equation:"
+        )
+        self.velocityx_avg_velocity_param_values_frame.place(
+            height=70, width=460, relx=0.4, rely=0.67
+        )
 
         # TreeViewWidget
         self.tree_view = ttk.Treeview(self.trv_frame)
@@ -137,7 +202,7 @@ class MainApp:
         )
 
         self.tree_view.configure(
-            xscrollcommand=self.trv_scroll_y.set, yscrollcommand=self.trv_scroll_x.set
+            yscrollcommand=self.trv_scroll_y.set, xscrollcommand=self.trv_scroll_x.set
         )
         self.trv_scroll_x.pack(side="bottom", fill="x")
         self.trv_scroll_y.pack(side="right", fill="y")
@@ -157,7 +222,7 @@ class MainApp:
                 messagebox.showerror("Attention", f"No such file as {self.file_path}")
 
             self.label_file = ttk.Label(
-                self.file_dialog_frame, text=f"{self.file_name}"
+                self.data_processing_frame, text=f"{self.file_name}"
             )
             self.label_file.place(rely=0, relx=0)
             clear_data(self)
@@ -178,6 +243,20 @@ class MainApp:
 
         def clear_data(self):
             self.tree_view.delete(*self.tree_view.get_children())
+
+        def load_height_area_label(self):
+            self.height_area_label_equation = tk.Label(
+                self.height_area_param_values_frame,
+                text=f"Area(m²) = {self.least_square_height_area.coef_}height(m) + {self.least_square_height_area.intercept_}  R² = {self.least_square_height_area.score}",
+            )
+            self.height_area_label_equation.place(relx=0.2, rely=0.3)
+
+        def load_velocityx_avg_vel_label(self):
+            self.velx_avg_vel_label_equation = tk.Label(
+                self.velocityx_avg_velocity_param_values_frame,
+                text=f"Average Velocity(m/s) = {self.least_square_velx_avgVel.coef_}velocityX(m/s) + {self.least_square_velx_avgVel.intercept_}  R² = {self.least_square_velx_avgVel.score}",
+            )
+            self.velx_avg_vel_label_equation.place(relx=0.10, rely=0.3)
 
         self.root.mainloop()
 

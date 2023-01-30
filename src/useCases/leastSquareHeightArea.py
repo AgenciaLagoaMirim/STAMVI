@@ -7,6 +7,9 @@ from sklearn.linear_model import LinearRegression
 class LeastSquareHeightArea:
     def __init__(self):
         self.area_predict = None
+        self.coef_ = None
+        self.intercept_ = None
+        self.score = None
 
     def plot_least_squares(self, file_path):
         file_path = r"{}".format(file_path)
@@ -38,7 +41,12 @@ class LeastSquareHeightArea:
 
         # adiciona o valor de R²
         plt.title(
-            f" mean_area(m²) = {linear_model_height_mean_area.coef_[0]:.2f}height(m) + {linear_model_height_mean_area.intercept_:.2f} \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.4f}"
+            f" mean_area(m²) = {linear_model_height_mean_area.coef_[0]:.3f}height(m) + {linear_model_height_mean_area.intercept_:.3f} \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.3f}"
+        )
+        self.coef_ = round(linear_model_height_mean_area.coef_[0], 3)
+        self.intercept_ = round(linear_model_height_mean_area.intercept_, 3)
+        self.score = round(
+            linear_model_height_mean_area.score(height_mtx, area_list), 4
         )
 
         plt.show()
