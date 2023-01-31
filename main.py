@@ -4,13 +4,12 @@ from tkinter import messagebox, ttk
 import pandas as pd
 
 from src.useCases import (
-    DatDataProcessing,
     EstimatedQValues,
     ExportData,
     FileDialog,
+    GetTimeSeries,
     LeastSquareHeightArea,
     LeastVelXAvgVel,
-    XmlDataProcessing,
 )
 
 APP_HEIGHT = 600
@@ -31,6 +30,7 @@ class MainApp:
         self.least_square_height_area = LeastSquareHeightArea()
         self.least_square_velx_avgVel = LeastVelXAvgVel()
         self.estimated_q_values = EstimatedQValues()
+        self.get_time_series = GetTimeSeries()
 
         # Frame da TreeViewWidget
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame Display")
@@ -134,17 +134,18 @@ class MainApp:
 
         # Botões Least Squares
 
-        self.btn_least_square_mean_area_height = ttk.Button(
+        self.btn_avg_vel_time_series = ttk.Button(
             self.estimated_values_frame,
             padding=2,
             text="Avg velocity",
             command=lambda: [
-                self.least_square_height_area.plot_least_squares(
-                    self.file_path.file_path
-                ),
+                self.get_time_series.get_avg_vel_time_serie(
+                    self.least_square_velx_avgVel.coef_,
+                    self.least_square_velx_avgVel.intercept_,
+                )
             ],
         )
-        self.btn_least_square_mean_area_height.place(relx=0.01, rely=0.2)
+        self.btn_avg_vel_time_series.place(relx=0.01, rely=0.2)
 
         self.btn_least_square_velx_avgVel = ttk.Button(
             self.estimated_values_frame,
