@@ -3,11 +3,14 @@ from tkinter import messagebox, ttk
 
 import pandas as pd
 
+from src.textAboutWin import TextAboutWin
 from src.useCases import (
     EstimatedQValues,
     ExportData,
     FileDialog,
-    GetTimeSeries,
+    GetAvgVelTimeSeries,
+    GetHeightTimeSeries,
+    GetQTimeSeries,
     LeastSquareHeightArea,
     LeastVelXAvgVel,
 )
@@ -30,8 +33,10 @@ class MainApp:
         self.least_square_height_area = LeastSquareHeightArea()
         self.least_square_velx_avgVel = LeastVelXAvgVel()
         self.estimated_q_values = EstimatedQValues()
-        self.get_time_series = GetTimeSeries()
-
+        self.get_avg_vel_time_serie = GetAvgVelTimeSeries()
+        self.get_q_time_serie = GetQTimeSeries()
+        self.get_height_serie = GetHeightTimeSeries()
+        self.text_about_win = TextAboutWin()
         # Frame da TreeViewWidget
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame Display")
         self.trv_frame.place(height=300, width=800)
@@ -116,7 +121,7 @@ class MainApp:
         self.btn_estimated_q_values = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="CNS",
+            text="NSE",
             command=lambda: [
                 self.estimated_q_values.get_estimated_q_values(
                     self.file_path.file_path,
@@ -139,7 +144,7 @@ class MainApp:
             padding=2,
             text="Avg velocity",
             command=lambda: [
-                self.get_time_series.get_avg_vel_time_serie(
+                self.get_avg_vel_time_serie.get_avg_vel_time_serie(
                     self.least_square_velx_avgVel.coef_,
                     self.least_square_velx_avgVel.intercept_,
                 )
@@ -151,11 +156,7 @@ class MainApp:
             self.estimated_values_frame,
             padding=2,
             text="Height",
-            command=lambda: [
-                self.least_square_velx_avgVel.plot_least_squares(
-                    self.file_path.file_path
-                ),
-            ],
+            command=lambda: [self.get_height_serie.get_height_time_serie()],
         )
         self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
 
@@ -164,10 +165,11 @@ class MainApp:
             padding=2,
             text="Q values",
             command=lambda: [
-                self.estimated_q_values.get_estimated_q_values(
-                    self.file_path.file_path,
-                    self.least_square_velx_avgVel.avg_vel_predict,
-                    self.least_square_height_area.area_predict,
+                self.get_q_time_serie.get_estimated_q_time_serie(
+                    self.least_square_height_area.coef_,
+                    self.least_square_height_area.intercept_,
+                    self.least_square_velx_avgVel.coef_,
+                    self.least_square_velx_avgVel.intercept_,
                 )
             ],
         )
@@ -207,6 +209,22 @@ class MainApp:
         )
         self.trv_scroll_x.pack(side="bottom", fill="x")
         self.trv_scroll_y.pack(side="right", fill="y")
+
+        self.menu_bar = tk.Menu(self.root)
+        self.root.config(menu=self.menu_bar)
+
+        def quit():
+            askok_cancel = messagebox.askokcancel("Attention!", "Exit Application?")
+            if askok_cancel:
+                self.root.destroy()
+
+        def about_window():
+            top_abt_win = tk.Toplevel()
+            top_abt_win.title("Info")
+            top_abt_win.geometry("600x730")
+            top_abt_win.resizable(0, 0)
+            info_lbl = tk.Label(top_abt_win, text=self.text_about_win.TEXT)
+            info_lbl.grid(row=0, column=0)
 
         def load_excel_data(self):
             try:
@@ -248,16 +266,19 @@ class MainApp:
         def load_height_area_label(self):
             self.height_area_label_equation = tk.Label(
                 self.height_area_param_values_frame,
-                text=f"Area(m²) = {self.least_square_height_area.coef_}height(m) + {self.least_square_height_area.intercept_}  R² = {self.least_square_height_area.score}",
+                text=f"Area(m²) = {self.least_square_height_area.coef_}height(m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
             )
             self.height_area_label_equation.place(relx=0.2, rely=0.3)
 
         def load_velocityx_avg_vel_label(self):
             self.velx_avg_vel_label_equation = tk.Label(
                 self.velocityx_avg_velocity_param_values_frame,
-                text=f"Average Velocity(m/s) = {self.least_square_velx_avgVel.coef_}velocityX(m/s) + {self.least_square_velx_avgVel.intercept_}  R² = {self.least_square_velx_avgVel.score}",
+                text=f"Average Velocity(m/s) = {self.least_square_velx_avgVel.coef_}velocityX(m/s) + ({self.least_square_velx_avgVel.intercept_}) R² = {self.least_square_velx_avgVel.score}",
             )
             self.velx_avg_vel_label_equation.place(relx=0.10, rely=0.3)
+
+        self.menu_bar.add_command(label="Info", command=about_window)
+        self.menu_bar.add_command(label="Quit", command=quit)
 
         self.root.mainloop()
 

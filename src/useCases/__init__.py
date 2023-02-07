@@ -3,7 +3,9 @@ from src.useCases.datDataProcessing import DatDataProcessing
 from src.useCases.estimatedQValues import EstimatedQValues
 from src.useCases.exportData import ExportData
 from src.useCases.fileDialog import FileDialog
-from src.useCases.getTimeSeries import GetTimeSeries
+from src.useCases.getAvgVelTimeSeries import GetAvgVelTimeSeries
+from src.useCases.getHeightSeries import GetHeightTimeSeries
+from src.useCases.getQtimeSerie import GetQTimeSeries
 from src.useCases.leastSquareHeightArea import LeastSquareHeightArea
 from src.useCases.leastSquareVelXAvgVel import LeastVelXAvgVel
 from src.useCases.xlsxToDataFrame import XlsxToDataFrame
