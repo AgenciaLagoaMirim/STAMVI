@@ -18,10 +18,10 @@ class LeastSquareHeightArea:
         else:
             xlsx_dataFrame = pd.read_excel(file_path)
 
-        height_list = np.array(xlsx_dataFrame.height_m)
+        height_list = np.array(xlsx_dataFrame.rage_m)
         height_mtx = height_list.reshape(-1, 1)
 
-        area_list = np.array(xlsx_dataFrame.mean_area_sqm)
+        area_list = np.array(xlsx_dataFrame.mean_area_sq_m)
         self.mean_area_mtx = area_list.reshape(-1, 1)
         # treina o modelo
         linear_model_height_mean_area = LinearRegression()
@@ -36,12 +36,12 @@ class LeastSquareHeightArea:
         plt.plot(height_list, area_predict, color="red")
 
         # adiciona as legandas
-        plt.xlabel("Height(m)")
+        plt.xlabel("Rage (m)")
         plt.ylabel("Mean Area (m²)")
 
         # adiciona o valor de R²
         plt.title(
-            f" mean_area(m²) = {linear_model_height_mean_area.coef_[0]:.3f}height(m) + {linear_model_height_mean_area.intercept_:.3f} \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.3f}"
+            f" Mean_area (m²) = {linear_model_height_mean_area.coef_[0]:.3f}Rage (m) + {linear_model_height_mean_area.intercept_:.3f} \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.3f}"
         )
         self.coef_ = round(linear_model_height_mean_area.coef_[0], 3)
         self.intercept_ = round(linear_model_height_mean_area.intercept_, 3)

@@ -67,8 +67,8 @@ class ExportData:
         final_dataFrame = final_dataFrame.rename(
             columns={
                 "Date": "date",
-                "VelocityX": "velocityX_mps",
-                "Pressure": "height_m",
+                "VelocityX": "velocityX_m_per_s",
+                "Pressure": "rage_m",
             }
         )
 
@@ -78,11 +78,11 @@ class ExportData:
                 "start_datetime",
                 "end_datetime",
                 "date",
-                "velocityX_mps",
-                "height_m",
-                "mean_area_sqm",
-                "Q_m3_per_sec",
-                "avg_vel_mps",
+                "velocityX_m_per_s",
+                "rage_m",
+                "mean_area_sq_m",
+                "discharge_m3_per_sec",
+                "avg_vel_m_per_s",
             ]
         )
 

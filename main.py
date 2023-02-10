@@ -19,6 +19,39 @@ APP_HEIGHT = 600
 APP_WIDTH = 800
 
 
+class ToolTip:
+    def __init__(self, widget, text):
+        self.widget = widget
+        self.text = text
+        self.widget.bind("<Enter>", self.enter)
+        self.widget.bind("<Leave>", self.leave)
+
+    def enter(self, event=None):
+        x = y = 0
+        x, y, cx, cy = self.widget.bbox("insert")
+        x += self.widget.winfo_rootx() + 25
+        y += self.widget.winfo_rooty() + 20
+        # cria a TopLevel window
+        self.tw = tk.Toplevel(self.widget)
+        # deixa apenas a mensagem e remove  a Toplevel Window
+        self.tw.wm_overrideredirect(True)
+        self.tw.wm_geometry("+%d+%d" % (x, y))
+        label = tk.Label(
+            self.tw,
+            text=self.text,
+            justify="left",
+            background="ghost white",
+            relief="solid",
+            borderwidth=1,
+            font=("tahoma", "8", "normal"),
+        )
+        label.pack(ipadx=1)
+
+    def leave(self, event=None):
+        if self.tw:
+            self.tw.destroy()
+
+
 class MainApp:
     def __init__(self):
         self.file_path = FileDialog()
@@ -68,6 +101,7 @@ class MainApp:
             ],
         )
         self.btn_export_excel_data.place(relx=0.01, rely=0.35)
+        ToolTip(self.btn_export_excel_data, self.text_about_win.TEXT_2)
 
         self.btn_export_csv_data = ttk.Button(
             self.data_processing_frame,
@@ -79,6 +113,7 @@ class MainApp:
             ],
         )
         self.btn_export_csv_data.place(relx=0.50, rely=0.35)
+        ToolTip(self.btn_export_csv_data, self.text_about_win.TEXT_3)
 
         self.btn_load_excel_data = ttk.Button(
             self.load_workspace_file,
@@ -87,6 +122,7 @@ class MainApp:
             command=lambda: [self.file_path.set_file_path(), load_excel_data(self)],
         )
         self.btn_load_excel_data.place(relx=0.01, rely=0.37)
+        ToolTip(self.btn_load_excel_data, self.text_about_win.TEXT_4)
 
         # Frame Open File Dialog
 
@@ -107,6 +143,7 @@ class MainApp:
             ],
         )
         self.btn_least_square_mean_area_height.place(relx=0.01, rely=0.2)
+        ToolTip(self.btn_least_square_mean_area_height, self.text_about_win.TEXT_5)
 
         self.btn_least_square_velx_avgVel = ttk.Button(
             self.file_dialog_frame,
@@ -120,6 +157,7 @@ class MainApp:
             ],
         )
         self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
+        ToolTip(self.btn_least_square_velx_avgVel, self.text_about_win.TEXT_6)
 
         self.btn_estimated_q_values = ttk.Button(
             self.file_dialog_frame,
@@ -134,6 +172,7 @@ class MainApp:
             ],
         )
         self.btn_estimated_q_values.place(relx=0.681, rely=0.2)
+        ToolTip(self.btn_estimated_q_values, self.text_about_win.TEXT_7)
 
         # Frame Valores estimados
 
@@ -154,6 +193,7 @@ class MainApp:
             ],
         )
         self.btn_avg_vel_time_series.place(relx=0.01, rely=0.2)
+        ToolTip(self.btn_avg_vel_time_series, self.text_about_win.TEXT_8)
 
         self.btn_least_square_velx_avgVel = ttk.Button(
             self.estimated_values_frame,
@@ -269,7 +309,7 @@ class MainApp:
         def load_height_area_label(self):
             self.height_area_label_equation = tk.Label(
                 self.height_area_param_values_frame,
-                text=f"Area (m²) = {self.least_square_height_area.coef_}height (m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
+                text=f"Area (m²) = {self.least_square_height_area.coef_}rage (m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
             )
             self.height_area_label_equation.place(relx=0.2, rely=0.3)
 

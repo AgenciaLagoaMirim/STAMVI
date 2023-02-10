@@ -12,7 +12,7 @@ class EstimatedQValues:
             xlsx_dataFrame = pd.read_excel(file_path)
 
         # configura dados vazõ observada
-        q_m3_per_sec = np.array(xlsx_dataFrame.Q_m3_per_sec)
+        q_m3_per_sec = np.array(xlsx_dataFrame.discharge_m3_per_sec)
 
         print(f"Mean area {mean_area}")
         print(f"Avg_veloc {avg_velocity}")
@@ -34,14 +34,14 @@ class EstimatedQValues:
         plt.plot(q_m3_per_sec, q_m3_per_sec, color="red")
 
         plt.annotate(
-            "Q (m³/s) Observed - Estimated",
+            "Discharge (m³/s) Observed - Estimated",
             xy=(q_m3_per_sec.min(), estimated_q_values.min()),
             xytext=(q_m3_per_sec.min(), estimated_q_values.max()),
         )
 
         # adiciona legendas
-        plt.xlabel("Observed Values - Q(m³/s)")
-        plt.ylabel("Estimated Vaues - Q(m³/s)")
+        plt.xlabel("Observed Values - Discharge (m³/s)")
+        plt.ylabel("Estimated Values - Discharge (m³/s)")
 
-        plt.title(f"CSN = {cns:.4f}")
+        plt.title(f"SNE = {cns:.4f}")
         plt.show()

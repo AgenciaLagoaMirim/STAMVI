@@ -20,8 +20,8 @@ class GetQTimeSeries:
             dataFrame = dataFrame.rename(
                 columns={
                     "Date": "date",
-                    "VelocityX": "velocityX_mps",
-                    "Pressure": "height_m",
+                    "VelocityX": "velocityX_m_per_s",
+                    "Pressure": "rage_m",
                 }
             )
             print(f"PRINT{dataFrame}")
@@ -31,15 +31,17 @@ class GetQTimeSeries:
             self.area_coef_ = area_coef_
             self.area_intercept_ = area_intercept_
 
-            dataFrame["avg_vel_mps"] = dataFrame["velocityX_mps"].apply(
+            dataFrame["avg_vel_m_per_s"] = dataFrame["velocityX_m_per_s"].apply(
                 lambda x: self.avg_coef_ * x + self.avg_intercept_
             )
 
-            dataFrame["mean_area"] = dataFrame["height_m"].apply(
+            dataFrame["mean_area_sq_m"] = dataFrame["rage_m"].apply(
                 lambda y: self.area_coef_ * y + self.area_intercept_
             )
 
-            dataFrame["Q_m3_per_sec"] = dataFrame["mean_area"] * dataFrame["avg_vel_mps"]
+            dataFrame["discharge_m3_per_sec"] = (
+                dataFrame["mean_area_sq_m"] * dataFrame["avg_vel_m_per_s"]
+            )
             dataFrame["date"] = pd.to_datetime(dataFrame["date"])
 
             ask_ok_cancel = messagebox.askokcancel("Save as xlsx", "Save as xlsx?")
@@ -50,7 +52,7 @@ class GetQTimeSeries:
                     dataFrame.to_excel(file_path, index=False)
 
             x = dataFrame["date"]
-            y = dataFrame["Q_m3_per_sec"]
+            y = dataFrame["discharge_m3_per_sec"]
 
             y_min = y.min()
             y_mean = y.mean()
@@ -76,7 +78,7 @@ class GetQTimeSeries:
             plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%b %d %Y"))
 
             plt.xlabel("Date")
-            plt.ylabel("Q(m³/s)")
+            plt.ylabel("Discharge (m³/s)")
             plt.title("Time Series - Discharge (m³/s)")
             plt.show()
         except:

@@ -203,9 +203,9 @@ class XmlDataProcessing:
             {
                 "start_datetime": self.start_date_time_list,
                 "end_datetime": self.end_date_time_list,
-                "mean_area_sqm": self.mean_area_list,
-                "Q_m3_per_sec": self.flow_rate_list,
-                "avg_vel_mps": self.average_velocity_list,
+                "mean_area_sq_m": self.mean_area_list,
+                "discharge_m3_per_sec": self.flow_rate_list,
+                "avg_vel_m_per_s": self.average_velocity_list,
             }
         )
         xml_dataFrame["start_datetime"] = pd.to_datetime(
