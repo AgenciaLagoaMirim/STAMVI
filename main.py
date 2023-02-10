@@ -45,20 +45,23 @@ class MainApp:
 
         self.data_processing_frame = tk.LabelFrame(
             self.root,
-            text="Load Data/Export Processed Data:",
+            text="Export Processed Data as:",
         )
-        self.data_processing_frame.place(height=70, width=262, rely=0.53, relx=0.01)
+        self.data_processing_frame.place(height=60, width=170, rely=0.53, relx=0.01)
+
+        self.load_workspace_file = tk.LabelFrame(self.root, text=" Load WorkSpace:")
+        self.load_workspace_file.place(height=68, width=262, rely=0.64, relx=0.01)
 
         # Label
-        self.label_file = ttk.Label(self.data_processing_frame, text="No file Selected")
+        self.label_file = ttk.Label(self.load_workspace_file, text="No file Selected")
         self.label_file.place(rely=0, relx=0.01)
 
         # Data Processing Button
 
         self.btn_export_excel_data = ttk.Button(
             self.data_processing_frame,
-            padding=2,
-            text="as .xlsx",
+            padding=1,
+            text=".xlsx",
             command=lambda: [
                 self.export_data.setup_final_dataFrame(),
                 self.export_data.export_xlsx(),
@@ -68,27 +71,27 @@ class MainApp:
 
         self.btn_export_csv_data = ttk.Button(
             self.data_processing_frame,
-            padding=2,
-            text="as .csv",
+            padding=1,
+            text=".csv",
             command=lambda: [
                 self.export_data.setup_final_dataFrame(),
                 self.export_data.export_csv(),
             ],
         )
-        self.btn_export_csv_data.place(relx=0.35, rely=0.35)
+        self.btn_export_csv_data.place(relx=0.50, rely=0.35)
 
         self.btn_load_excel_data = ttk.Button(
-            self.data_processing_frame,
+            self.load_workspace_file,
             padding=2,
             text="load file",
             command=lambda: [self.file_path.set_file_path(), load_excel_data(self)],
         )
-        self.btn_load_excel_data.place(relx=0.681, rely=0.35)
+        self.btn_load_excel_data.place(relx=0.01, rely=0.37)
 
         # Frame Open File Dialog
 
         self.file_dialog_frame = tk.LabelFrame(self.root, text="Execute Models:")
-        self.file_dialog_frame.place(height=60, width=262, rely=0.67, relx=0.01)
+        self.file_dialog_frame.place(height=60, width=262, rely=0.77, relx=0.01)
 
         # Botões Least Squares
 
@@ -134,15 +137,15 @@ class MainApp:
 
         # Frame Valores estimados
 
-        self.estimated_values_frame = tk.LabelFrame(self.root, text="Get Time Series:")
-        self.estimated_values_frame.place(height=60, width=262, rely=0.80, relx=0.01)
+        self.estimated_values_frame = tk.LabelFrame(self.root, text="Time Series:")
+        self.estimated_values_frame.place(height=60, width=262, rely=0.88, relx=0.01)
 
         # Botões Least Squares
 
         self.btn_avg_vel_time_series = ttk.Button(
             self.estimated_values_frame,
             padding=2,
-            text="Avg velocity",
+            text="Avg. Velocity",
             command=lambda: [
                 self.get_avg_vel_time_serie.get_avg_vel_time_serie(
                     self.least_square_velx_avgVel.coef_,
@@ -155,7 +158,7 @@ class MainApp:
         self.btn_least_square_velx_avgVel = ttk.Button(
             self.estimated_values_frame,
             padding=2,
-            text="Height",
+            text="Stage",
             command=lambda: [self.get_height_serie.get_height_time_serie()],
         )
         self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
@@ -163,7 +166,7 @@ class MainApp:
         self.btn_estimated_q_values = ttk.Button(
             self.estimated_values_frame,
             padding=2,
-            text="Q values",
+            text="Discharge",
             command=lambda: [
                 self.get_q_time_serie.get_estimated_q_time_serie(
                     self.least_square_height_area.coef_,
@@ -177,17 +180,17 @@ class MainApp:
 
         # Frame para os parametros
 
-        # Height-Area
+        # Stage-Area
         self.height_area_param_values_frame = tk.LabelFrame(
-            self.root, text="Height - Area Equation:"
+            self.root, text="Stage - Area Rating:"
         )
         self.height_area_param_values_frame.place(
             height=70, width=460, relx=0.4, rely=0.53
         )
 
-        # VelocityX - Average Velocity
+        # Index VelocityX - Average Velocity
         self.velocityx_avg_velocity_param_values_frame = tk.LabelFrame(
-            self.root, text="Velocity X - Average Velocity Equation:"
+            self.root, text="Index Velocity - Average Velocity Rating:"
         )
         self.velocityx_avg_velocity_param_values_frame.place(
             height=70, width=460, relx=0.4, rely=0.67
@@ -241,7 +244,7 @@ class MainApp:
                 messagebox.showerror("Attention", f"No such file as {self.file_path}")
 
             self.label_file = ttk.Label(
-                self.data_processing_frame, text=f"{self.file_name}"
+                self.load_workspace_file, text=f"{self.file_name}"
             )
             self.label_file.place(rely=0, relx=0)
             clear_data(self)
@@ -266,14 +269,14 @@ class MainApp:
         def load_height_area_label(self):
             self.height_area_label_equation = tk.Label(
                 self.height_area_param_values_frame,
-                text=f"Area(m²) = {self.least_square_height_area.coef_}height(m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
+                text=f"Area (m²) = {self.least_square_height_area.coef_}height (m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
             )
             self.height_area_label_equation.place(relx=0.2, rely=0.3)
 
         def load_velocityx_avg_vel_label(self):
             self.velx_avg_vel_label_equation = tk.Label(
                 self.velocityx_avg_velocity_param_values_frame,
-                text=f"Average Velocity(m/s) = {self.least_square_velx_avgVel.coef_}velocityX(m/s) + ({self.least_square_velx_avgVel.intercept_}) R² = {self.least_square_velx_avgVel.score}",
+                text=f"Average Velocity (m/s) = {self.least_square_velx_avgVel.coef_}velocityX (m/s) + ({self.least_square_velx_avgVel.intercept_}) R² = {self.least_square_velx_avgVel.score}",
             )
             self.velx_avg_vel_label_equation.place(relx=0.10, rely=0.3)
 
