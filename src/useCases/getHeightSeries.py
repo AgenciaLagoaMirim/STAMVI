@@ -19,14 +19,14 @@ class GetHeightTimeSeries:
                 columns={
                     "Date": "date",
                     "VelocityX": "velocityX_m_per_s",
-                    "Pressure": "rage_m",
+                    "Pressure": "stage_m",
                 }
             )
 
             dataFrame["date"] = pd.to_datetime(dataFrame["date"])
 
             x = dataFrame["date"]
-            y = dataFrame["rage_m"]
+            y = dataFrame["stage_m"]
 
             y_min = y.min()
             y_mean = y.mean()
@@ -52,8 +52,8 @@ class GetHeightTimeSeries:
             plt.gca().xaxis.set_major_formatter(mdates.DateFormatter("%b %d %Y"))
 
             plt.xlabel("Date")
-            plt.ylabel("Rage (m)")
-            plt.title("Time Series - Rage (m)")
+            plt.ylabel("Stage (m)")
+            plt.title("Time Series - Stage (m)")
             plt.show()
         except:
             raise messagebox.showerror("Info", "Restart the aplication!")

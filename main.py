@@ -58,8 +58,10 @@ class MainApp:
 
         # configuração janela principal
         self.root = tk.Tk()
+        self.root.title("STAMVI - V0.1")
         self.root.geometry(f"{APP_WIDTH}x{APP_HEIGHT}")
         self.root.resizable(0, 0)
+
         # use cases
 
         self.export_data = ExportData()
@@ -74,6 +76,8 @@ class MainApp:
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame Display")
         self.trv_frame.place(height=300, width=800)
 
+        self.txt_label = tk.Label(self.root, text=self.text_about_win.TEXT_0)
+        self.txt_label.place(relx=0.45, rely=0.8)
         # Frame Data Processing
 
         self.data_processing_frame = tk.LabelFrame(
@@ -134,7 +138,7 @@ class MainApp:
         self.btn_least_square_mean_area_height = ttk.Button(
             self.file_dialog_frame,
             padding=2,
-            text="Mean Area",
+            text="Area",
             command=lambda: [
                 self.least_square_height_area.plot_least_squares(
                     self.file_path.file_path
@@ -202,6 +206,7 @@ class MainApp:
             command=lambda: [self.get_height_serie.get_height_time_serie()],
         )
         self.btn_least_square_velx_avgVel.place(relx=0.35, rely=0.2)
+        ToolTip(self.btn_least_square_velx_avgVel, self.text_about_win.TEXT_9)
 
         self.btn_estimated_q_values = ttk.Button(
             self.estimated_values_frame,
@@ -217,6 +222,7 @@ class MainApp:
             ],
         )
         self.btn_estimated_q_values.place(relx=0.681, rely=0.2)
+        ToolTip(self.btn_estimated_q_values, self.text_about_win.TEXT_10)
 
         # Frame para os parametros
 
@@ -235,7 +241,6 @@ class MainApp:
         self.velocityx_avg_velocity_param_values_frame.place(
             height=70, width=460, relx=0.4, rely=0.67
         )
-
         # TreeViewWidget
         self.tree_view = ttk.Treeview(self.trv_frame)
         self.tree_view.place(relheight=1, relwidth=1)
@@ -264,10 +269,13 @@ class MainApp:
         def about_window():
             top_abt_win = tk.Toplevel()
             top_abt_win.title("Info")
-            top_abt_win.geometry("600x730")
-            top_abt_win.resizable(0, 0)
-            info_lbl = tk.Label(top_abt_win, text=self.text_about_win.TEXT)
-            info_lbl.grid(row=0, column=0)
+            top_abt_win.geometry("800x600")
+            top_abt_win.resizable(1, 1)
+            info_lbl = tk.Label(
+                top_abt_win, text=self.text_about_win.TEXT_1, justify="left"
+            )
+            info_lbl.pack(expand=True, fill="both")
+            info_lbl.place(relx=0.5, rely=0.5, anchor="center")
 
         def load_excel_data(self):
             try:

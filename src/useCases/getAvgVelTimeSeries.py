@@ -20,7 +20,7 @@ class GetAvgVelTimeSeries:
                 columns={
                     "Date": "date",
                     "VelocityX": "velocityX_m_per_s",
-                    "Pressure": "rage_m",
+                    "Pressure": "stage_m",
                 }
             )
 

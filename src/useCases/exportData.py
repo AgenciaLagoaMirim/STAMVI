@@ -68,7 +68,7 @@ class ExportData:
             columns={
                 "Date": "date",
                 "VelocityX": "velocityX_m_per_s",
-                "Pressure": "rage_m",
+                "Pressure": "stage_m",
             }
         )
 
@@ -79,8 +79,8 @@ class ExportData:
                 "end_datetime",
                 "date",
                 "velocityX_m_per_s",
-                "rage_m",
-                "mean_area_sq_m",
+                "stage_m",
+                "area_sq_m",
                 "discharge_m3_per_sec",
                 "avg_vel_m_per_s",
             ]

@@ -21,7 +21,7 @@ class GetQTimeSeries:
                 columns={
                     "Date": "date",
                     "VelocityX": "velocityX_m_per_s",
-                    "Pressure": "rage_m",
+                    "Pressure": "stage_m",
                 }
             )
             print(f"PRINT{dataFrame}")
@@ -35,12 +35,12 @@ class GetQTimeSeries:
                 lambda x: self.avg_coef_ * x + self.avg_intercept_
             )
 
-            dataFrame["mean_area_sq_m"] = dataFrame["rage_m"].apply(
+            dataFrame["area_sq_m"] = dataFrame["stage_m"].apply(
                 lambda y: self.area_coef_ * y + self.area_intercept_
             )
 
             dataFrame["discharge_m3_per_sec"] = (
-                dataFrame["mean_area_sq_m"] * dataFrame["avg_vel_m_per_s"]
+                dataFrame["area_sq_m"] * dataFrame["avg_vel_m_per_s"]
             )
             dataFrame["date"] = pd.to_datetime(dataFrame["date"])
 
@@ -64,7 +64,7 @@ class GetQTimeSeries:
             plt.text(
                 0.03,
                 0.95,
-                "Min: {:.2f}(m³/s)\nMean: {:.2f}(m³/s)\nMax: {:.2f}(m³/s)".format(
+                "Min: {:.2f} (m³/s)\nMean: {:.2f} (m³/s)\nMax: {:.2f} (m³/s)".format(
                     y_min, y_mean, y_max
                 ),
                 fontsize=8.5,
