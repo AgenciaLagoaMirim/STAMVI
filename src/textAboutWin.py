@@ -2,9 +2,10 @@ class TextAboutWin:
     def __init__(self):
 
         self.TEXT_0 = """
+        STAMVI\n
         Agência para o Desenvolvimento da Bacia da Lagoa Mirim - ALM
         Universidade Federal de Pelotas - UFPel
-        Núcleo de Ensino Pesquisa e Extensão - NEPE HIDROSEDI
+        NEPE - HIDROSEDI
         """
 
         self.TEXT_1 = """

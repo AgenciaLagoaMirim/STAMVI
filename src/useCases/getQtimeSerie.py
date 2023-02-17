@@ -20,7 +20,7 @@ class GetQTimeSeries:
             dataFrame = dataFrame.rename(
                 columns={
                     "Date": "date",
-                    "VelocityX": "velocityX_m_per_s",
+                    "VelocityX": "velocityX_m_per_sec",
                     "Pressure": "stage_m",
                 }
             )
@@ -31,8 +31,8 @@ class GetQTimeSeries:
             self.area_coef_ = area_coef_
             self.area_intercept_ = area_intercept_
 
-            dataFrame["avg_vel_m_per_s"] = dataFrame["velocityX_m_per_s"].apply(
-                lambda x: self.avg_coef_ * x + self.avg_intercept_
+            dataFrame["avg_vel_m_per_sec"] = dataFrame["velocityX_m_per_sec"].apply(
+                lambda x: round(self.avg_coef_ * x + self.avg_intercept_, 3)
             )
 
             dataFrame["area_sq_m"] = dataFrame["stage_m"].apply(
@@ -40,7 +40,7 @@ class GetQTimeSeries:
             )
 
             dataFrame["discharge_m3_per_sec"] = (
-                dataFrame["area_sq_m"] * dataFrame["avg_vel_m_per_s"]
+                dataFrame["area_sq_m"] * dataFrame["avg_vel_m_per_sec"]
             )
             dataFrame["date"] = pd.to_datetime(dataFrame["date"])
 

@@ -41,7 +41,7 @@ class LeastSquareHeightArea:
 
         # adiciona o valor de R²
         plt.title(
-            f" Area (m²) = {linear_model_height_mean_area.coef_[0]:.3f}Stage (m) + {linear_model_height_mean_area.intercept_:.3f} \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.3f}"
+            f" Area (m²) = {linear_model_height_mean_area.coef_[0]:.3f}Stage (m) + ({linear_model_height_mean_area.intercept_:.3f}) \n R² = {linear_model_height_mean_area.score(height_mtx, area_list):.3f}"
         )
         self.coef_ = round(linear_model_height_mean_area.coef_[0], 3)
         self.intercept_ = round(linear_model_height_mean_area.intercept_, 3)

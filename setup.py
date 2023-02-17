@@ -26,3 +26,5 @@ setup(
     executables=executables,
     install_requires=requirements,
 )
+
+# python setup.py build_exe

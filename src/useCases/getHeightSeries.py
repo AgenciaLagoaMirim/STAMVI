@@ -18,7 +18,7 @@ class GetHeightTimeSeries:
             dataFrame = dataFrame.rename(
                 columns={
                     "Date": "date",
-                    "VelocityX": "velocityX_m_per_s",
+                    "VelocityX": "velocityX_m_per_sec",
                     "Pressure": "stage_m",
                 }
             )

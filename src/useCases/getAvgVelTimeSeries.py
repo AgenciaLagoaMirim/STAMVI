@@ -19,7 +19,7 @@ class GetAvgVelTimeSeries:
             dataFrame = dataFrame.rename(
                 columns={
                     "Date": "date",
-                    "VelocityX": "velocityX_m_per_s",
+                    "VelocityX": "velocityX_m_per_sec",
                     "Pressure": "stage_m",
                 }
             )
@@ -27,14 +27,14 @@ class GetAvgVelTimeSeries:
             self.coef_ = coef_
             self.intercept_ = intercept_
 
-            dataFrame["avg_vel_m_per_s"] = dataFrame["velocityX_m_per_s"].apply(
+            dataFrame["avg_vel_m_per_sec"] = dataFrame["velocityX_m_per_sec"].apply(
                 lambda x: round(self.coef_ * x + self.intercept_, 3)
             )
 
             dataFrame["date"] = pd.to_datetime(dataFrame["date"])
 
             x = dataFrame["date"]
-            y = dataFrame["avg_vel_m_per_s"]
+            y = dataFrame["avg_vel_m_per_sec"]
 
             y_min = y.min()
             y_mean = y.mean()

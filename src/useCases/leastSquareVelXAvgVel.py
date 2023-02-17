@@ -18,10 +18,10 @@ class LeastVelXAvgVel:
         else:
             xlsx_dataFrame = pd.read_excel(file_path)
 
-        velocityX_list = np.array(xlsx_dataFrame.velocityX_m_per_s)
+        velocityX_list = np.array(xlsx_dataFrame.velocityX_m_per_sec)
         velocityX_mtx = velocityX_list.reshape(-1, 1)
 
-        avg_vel_list = np.array(xlsx_dataFrame.avg_vel_m_per_s)
+        avg_vel_list = np.array(xlsx_dataFrame.avg_vel_m_per_sec)
         self.avg_vel_mtx = avg_vel_list.reshape(-1, 1)
         # treina o modelo
         linear_model_velx_avgVel = LinearRegression()
@@ -40,7 +40,7 @@ class LeastVelXAvgVel:
 
         # adiciona o valor de R²
         plt.title(
-            f"Average Velocity(m/s) = {linear_model_velx_avgVel.coef_[0]:.3f}Velocity X(m/s) + {linear_model_velx_avgVel.intercept_:.3f}\n R² = {linear_model_velx_avgVel.score(velocityX_mtx, avg_vel_list):.3f}"
+            f"Average Velocity(m/s) = {linear_model_velx_avgVel.coef_[0]:.3f}Velocity X(m/s) + ({linear_model_velx_avgVel.intercept_:.3f})\n R² = {linear_model_velx_avgVel.score(velocityX_mtx, avg_vel_list):.3f}"
         )
 
         self.coef_ = round(linear_model_velx_avgVel.coef_[0], 3)
