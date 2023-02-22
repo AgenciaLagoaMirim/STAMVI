@@ -43,5 +43,5 @@ class EstimatedQValues:
         plt.xlabel("Observed Values - Discharge (m³/s)")
         plt.ylabel("Estimated Values - Discharge (m³/s)")
 
-        plt.title(f"SNE = {cns:.4f}")
+        plt.title(f"NSE = {cns:.4f}")
         plt.show()

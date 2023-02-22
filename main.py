@@ -61,6 +61,8 @@ class MainApp:
         self.root.title("STAMVI - V0.1")
         self.root.geometry(f"{APP_WIDTH}x{APP_HEIGHT}")
         self.root.resizable(0, 0)
+        icon = tk.PhotoImage(file="src/img/image.png")
+        self.root.wm_iconphoto(True, icon)
 
         # use cases
 
