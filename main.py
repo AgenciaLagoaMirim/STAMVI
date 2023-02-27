@@ -319,7 +319,7 @@ class MainApp:
         def load_height_area_label(self):
             self.height_area_label_equation = tk.Label(
                 self.height_area_param_values_frame,
-                text=f"Area (m²) = {self.least_square_height_area.coef_}rage (m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
+                text=f"Area (m²) = {self.least_square_height_area.coef_}Stage (m) + ({self.least_square_height_area.intercept_})  R² = {self.least_square_height_area.score}",
             )
             self.height_area_label_equation.place(relx=0.2, rely=0.3)
 

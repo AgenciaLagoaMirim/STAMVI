@@ -20,22 +20,27 @@ class TextAboutWin:
         -----------------------------------------------------------------------------------------------------------------
         Source code and development:\n
         Jamilson do Nascimento
-        github.com/kkcortez-nscmnt
         jamil.pyhidrodev@gmail.com
+        github.com/kkcortez-nscmnt
+        lattes.cnpq.br/5932272766147441
         ---------------------------------------------------------------------------------
         Development:\n
         Gilberto Loguercio Collares
-        gilbertocollares@gmail.com \n
+        gilbertocollares@gmail.com
+        lattes.cnpq.br/6046778339130791\n
         Guilherme Kruger Bartels
-        guilhermebartels@gmail.com \n
+        guilhermebartels@gmail.com
+        lattes.cnpq.br/2755867236073126\n
         George Marino Soares Gonçalves
         george.marino.goncalves@gmail.com
-        ----------------------------------------------------------------------
-        icon : <a href="https://www.flaticon.com/free-icons/air-flow" title="air flow icons">Air flow icons created by Freepik - Flaticon</a>
-        ----------------------------------------------------------------------
-        Universidade Federal de Pelotas - UFPel https://portal.ufpel.edu.br
-        NEPE - HidroSedi http://www.hidrosedi.com
-        Agência para o Desenvolvimento da Bacia da Lagoa Mirim - São Gonçalo.https://agencialagoamirim.com.br
+        lattes.cnpq.br/1884442967596119
+        ---------------------------------------------------------------------------------
+        Universidade Federal de Pelotas - UFPel
+        portal.ufpel.edu.br
+        NEPE - HidroSedi
+        www.hidrosedi.com
+        Agência para o Desenvolvimento da Bacia da Lagoa Mirim - São Gonçalo
+        agencialagoamirim.com.br
         """
 
         self.TEXT_2 = """
