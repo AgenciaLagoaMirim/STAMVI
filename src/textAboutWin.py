@@ -41,6 +41,7 @@ class TextAboutWin:
         www.hidrosedi.com
         Agência para o Desenvolvimento da Bacia da Lagoa Mirim - São Gonçalo
         agencialagoamirim.com.br
+        github.com/AgenciaLagoaMirim
         """
 
         self.TEXT_2 = """

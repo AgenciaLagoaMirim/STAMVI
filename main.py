@@ -1,7 +1,9 @@
+import base64
 import tkinter as tk
 from tkinter import messagebox, ttk
 
 import pandas as pd
+from PIL import Image, ImageTk
 
 from src.textAboutWin import TextAboutWin
 from src.useCases import (
@@ -61,8 +63,6 @@ class MainApp:
         self.root.title("STAMVI - V0.1")
         self.root.geometry(f"{APP_WIDTH}x{APP_HEIGHT}")
         self.root.resizable(0, 0)
-        icon = tk.PhotoImage(file="src/img/image.png")
-        self.root.wm_iconphoto(True, icon)
 
         # use cases
 
@@ -74,6 +74,7 @@ class MainApp:
         self.get_q_time_serie = GetQTimeSeries()
         self.get_height_serie = GetHeightTimeSeries()
         self.text_about_win = TextAboutWin()
+
         # Frame da TreeViewWidget
         self.trv_frame = tk.LabelFrame(self.root, text="Final DataFrame Display")
         self.trv_frame.place(height=300, width=800)
@@ -238,7 +239,7 @@ class MainApp:
 
         # Index VelocityX - Average Velocity
         self.velocityx_avg_velocity_param_values_frame = tk.LabelFrame(
-            self.root, text="Index Velocity - Average Velocity Rating:"
+            self.root, text="Index Velocity X - Average Velocity Rating:"
         )
         self.velocityx_avg_velocity_param_values_frame.place(
             height=70, width=460, relx=0.4, rely=0.67
